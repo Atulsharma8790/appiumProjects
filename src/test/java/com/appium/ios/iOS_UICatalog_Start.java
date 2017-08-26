@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -82,7 +83,7 @@ public class iOS_UICatalog_Start {
 
 	}
 
-	@Test
+	//@Test
 	public void TestCase_Switches() throws InterruptedException {
 		driver.findElement(By.name("Switches")).click();
 
@@ -127,7 +128,7 @@ public class iOS_UICatalog_Start {
 		
 	}
 	
-	@Test
+	//@Test
 	public void TestCase_Steppers() throws InterruptedException {
 		driver.findElement(By.name("Steppers")).click();
 		List<IOSElement> steppers_increment = (List<IOSElement>)driver.findElements(By.name("Increment"));
@@ -162,8 +163,43 @@ public class iOS_UICatalog_Start {
 		TestCase_001();
 	}
 
-	public void alert_controllers() {
+	@Test
+	public void alert_controllers() throws InterruptedException {
 		
+		driver.findElement(By.name("Alert Controller")).click();
+		driver.findElement(By.name("Simple")).click();
+		Thread.sleep(1000);
+		driver.findElementsByAccessibilityId("OK").get(0).click();
+		
+		driver.findElements(By.name("Okay / Cancel")).get(0).click();
+		Thread.sleep(1000);
+		Alert alert = driver.switchTo().alert();
+		System.out.println(alert.getText());
+		
+			driver.findElementsByAccessibilityId("OK").get(0).click();
+		
+		
+		Thread.sleep(1000);
+		driver.findElement(By.name("Other")).click();
+		Thread.sleep(1000);
+		driver.switchTo().alert();
+		System.out.println(alert.getText());
+		driver.findElementsByAccessibilityId("Choice Two").get(0).click();
+
+		Thread.sleep(1000);
+
+		driver.findElement(By.name("Text Entry")).click();
+		Thread.sleep(1000);
+		driver.findElement(By.className("XCUIElementTypeTextField")).sendKeys("Test Message Text");
+		System.out.println(driver.findElement(By.className("XCUIElementTypeTextField")).getText());
+		driver.findElementsByAccessibilityId("OK").get(0).click();
+		
+		Thread.sleep(1000);
+
+		driver.findElements(By.name("Okay / Cancel")).get(1).click();
+		Thread.sleep(1000);
+		driver.findElementsByAccessibilityId("OK").get(0).click();
+		TestCase_001();
 	}
 	
 	public void stackViews() {
