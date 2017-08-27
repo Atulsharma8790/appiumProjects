@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -163,7 +164,7 @@ public class iOS_UICatalog_Start {
 		TestCase_001();
 	}
 
-	@Test
+	//@Test
 	public void alert_controllers() throws InterruptedException {
 		
 		driver.findElement(By.name("Alert Controller")).click();
@@ -199,18 +200,44 @@ public class iOS_UICatalog_Start {
 		driver.findElements(By.name("Okay / Cancel")).get(1).click();
 		Thread.sleep(1000);
 		driver.findElementsByAccessibilityId("OK").get(0).click();
+		Thread.sleep(2000);
+
 		TestCase_001();
 	}
 	
-	public void stackViews() {
+	//@Test
+	public void stackViews() throws InterruptedException {
+		driver.findElement(By.name("Stack Views")).click();
 		
+		driver.findElements(By.name("stepper increment")).get(1).click();
+		driver.findElements(By.name("stepper increment")).get(1).click();
+		driver.findElements(By.name("stepper increment")).get(1).click();
+		driver.findElements(By.name("stepper increment")).get(0).click();
+
+		driver.findElements(By.name("stepper decrement")).get(1).click();
+		driver.findElements(By.name("stepper decrement")).get(0).click();
+		
+		System.out.println(driver.findElement(By.name("Footer Label")).getText());
+		
+		Thread.sleep(2000);
+		TestCase_001();
 	}
 	
 	public void Text_Fields() {
 		
 	}
 	
-	public void webView() {
+	@Test
+	public void webView() throws InterruptedException {
+		
+		driver.swipe(200, 600, 200, 250, 1);
+		Thread.sleep(2000);
+		driver.findElement(By.name("Web View")).click();
+		Thread.sleep(2000);
+		driver.findElement(By.className("XCUIElementTypeTextField")).click();
+		wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.name("Clear text")))).click();
+		driver.findElement(By.className("XCUIElementTypeTextField")).sendKeys("http://www.google.co.in");
+		driver.getKeyboard().pressKey(Keys.ENTER);
 		
 	}
 	
