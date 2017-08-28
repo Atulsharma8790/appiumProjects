@@ -1,5 +1,6 @@
 package com.appium.ios;
 
+import java.math.RoundingMode;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -12,6 +13,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import com.sun.javafx.scene.traversal.Direction;
 
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
@@ -108,38 +111,53 @@ public class iOS_UICatalog_Start {
 
 
 	}
-	
-	//@Test
+
+	@Test
 	public void TestCase_Sliders() {
 		driver.findElement(By.name("Sliders")).click();
-		
+
 		List<IOSElement> sliders = (List<IOSElement>)driver.findElements(By.className("XCUIElementTypeSlider"));
-		
+
+		//SLIDER 1
 		System.out.println(sliders.get(0).getAttribute("value"));
-		sliders.get(0).sendKeys("0.6");
+		String Value = sliders.get(0).getAttribute("value");
+		Value = Value.substring(0,Value.length()-1);
+		int curr_percentage = Integer.parseInt(Value);
+
+		int width = sliders.get(0).getSize().getWidth();
+		int curr_y = sliders.get(0).getLocation().getY();
+
+		int curr_x = Math.round((width*curr_percentage)/100);
+		System.out.println(curr_percentage + " "+curr_x+" "+width+" "+" "+(curr_x-50));
+		driver.swipe(curr_x, curr_y, curr_x-50, curr_y, 1);
 		System.out.println(sliders.get(0).getAttribute("value"));
-	
+
+
+		//SLIDER 2
+		Value = sliders.get(1).getAttribute("value");
+		Value = Value.substring(0,Value.length()-1);
+		curr_percentage = Integer.parseInt(Value);
+
+		width = sliders.get(1).getSize().getWidth();
+		curr_y = sliders.get(1).getLocation().getY();
+
+		curr_x = Math.round((width*curr_percentage)/100);
+		System.out.println(curr_percentage + " "+curr_x+" "+width+" "+" "+(curr_x+150));
+		driver.swipe(curr_x, curr_y, curr_x+150, curr_y, 1);
 		System.out.println(sliders.get(1).getAttribute("value"));
-		sliders.get(0).sendKeys("0.8");
-		System.out.println(sliders.get(1).getAttribute("value"));
-		
-		System.out.println(sliders.get(2).getAttribute("value"));
-		sliders.get(0).sendKeys("0.2");
-		System.out.println(sliders.get(2).getAttribute("value"));
-		
 	}
-	
+
 	//@Test
 	public void TestCase_Steppers() throws InterruptedException {
 		driver.findElement(By.name("Steppers")).click();
 		List<IOSElement> steppers_increment = (List<IOSElement>)driver.findElements(By.name("Increment"));
 		List<IOSElement> steppers_decrement = (List<IOSElement>)driver.findElements(By.name("Decrement"));
 		List<IOSElement> values = (List<IOSElement>)driver.findElements(By.className("XCUIElementTypeStaticText"));
-		
+
 		System.out.println("value of 1st is : "+values.get(0).getAttribute("value"));
 		System.out.println("value of 2nd is : "+values.get(1).getAttribute("value"));
 		System.out.println("value of 3rd is : "+values.get(2).getAttribute("value"));
-		
+
 		for(int i=0;i<5;i++)
 		{
 			steppers_increment.get(0).click();
@@ -149,7 +167,7 @@ public class iOS_UICatalog_Start {
 		System.out.println("value of 1st is : "+values.get(0).getAttribute("value"));
 		System.out.println("value of 2nd is : "+values.get(1).getAttribute("value"));
 		System.out.println("value of 3rd is : "+values.get(2).getAttribute("value"));
-		
+
 		for(int i=5;i>0;i--)
 		{
 			steppers_decrement.get(0).click();
@@ -159,27 +177,27 @@ public class iOS_UICatalog_Start {
 		System.out.println("value of 1st is : "+values.get(0).getAttribute("value"));
 		System.out.println("value of 2nd is : "+values.get(1).getAttribute("value"));
 		System.out.println("value of 3rd is : "+values.get(2).getAttribute("value"));
-		
+
 		Thread.sleep(2000);
 		TestCase_001();
 	}
 
 	//@Test
 	public void alert_controllers() throws InterruptedException {
-		
+
 		driver.findElement(By.name("Alert Controller")).click();
 		driver.findElement(By.name("Simple")).click();
 		Thread.sleep(1000);
 		driver.findElementsByAccessibilityId("OK").get(0).click();
-		
+
 		driver.findElements(By.name("Okay / Cancel")).get(0).click();
 		Thread.sleep(1000);
 		Alert alert = driver.switchTo().alert();
 		System.out.println(alert.getText());
-		
-			driver.findElementsByAccessibilityId("OK").get(0).click();
-		
-		
+
+		driver.findElementsByAccessibilityId("OK").get(0).click();
+
+
 		Thread.sleep(1000);
 		driver.findElement(By.name("Other")).click();
 		Thread.sleep(1000);
@@ -194,7 +212,7 @@ public class iOS_UICatalog_Start {
 		driver.findElement(By.className("XCUIElementTypeTextField")).sendKeys("Test Message Text");
 		System.out.println(driver.findElement(By.className("XCUIElementTypeTextField")).getText());
 		driver.findElementsByAccessibilityId("OK").get(0).click();
-		
+
 		Thread.sleep(1000);
 
 		driver.findElements(By.name("Okay / Cancel")).get(1).click();
@@ -204,11 +222,11 @@ public class iOS_UICatalog_Start {
 
 		TestCase_001();
 	}
-	
+
 	//@Test
 	public void stackViews() throws InterruptedException {
 		driver.findElement(By.name("Stack Views")).click();
-		
+
 		driver.findElements(By.name("stepper increment")).get(1).click();
 		driver.findElements(By.name("stepper increment")).get(1).click();
 		driver.findElements(By.name("stepper increment")).get(1).click();
@@ -216,20 +234,20 @@ public class iOS_UICatalog_Start {
 
 		driver.findElements(By.name("stepper decrement")).get(1).click();
 		driver.findElements(By.name("stepper decrement")).get(0).click();
-		
+
 		System.out.println(driver.findElement(By.name("Footer Label")).getText());
-		
+
 		Thread.sleep(2000);
 		TestCase_001();
 	}
-	
+
 	public void Text_Fields() {
-		
+
 	}
-	
-	@Test
+
+	//@Test
 	public void webView() throws InterruptedException {
-		
+
 		driver.swipe(200, 600, 200, 250, 1);
 		Thread.sleep(2000);
 		driver.findElement(By.name("Web View")).click();
@@ -238,11 +256,11 @@ public class iOS_UICatalog_Start {
 		wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.name("Clear text")))).click();
 		driver.findElement(By.className("XCUIElementTypeTextField")).sendKeys("http://www.google.co.in");
 		driver.getKeyboard().pressKey(Keys.ENTER);
-		
+
 	}
-	
-	public void research_in_search() {
-		
+
+	public void results_in_search() {
+
 	}
 
 
