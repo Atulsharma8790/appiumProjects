@@ -1,6 +1,5 @@
 package com.appium.ios;
 
-import java.math.RoundingMode;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -13,8 +12,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
-import com.sun.javafx.scene.traversal.Direction;
 
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
@@ -112,7 +109,7 @@ public class iOS_UICatalog_Start {
 
 	}
 
-	@Test
+	//@Test
 	public void TestCase_Sliders() {
 		driver.findElement(By.name("Sliders")).click();
 
@@ -145,6 +142,7 @@ public class iOS_UICatalog_Start {
 		System.out.println(curr_percentage + " "+curr_x+" "+width+" "+" "+(curr_x+150));
 		driver.swipe(curr_x, curr_y, curr_x+150, curr_y, 1);
 		System.out.println(sliders.get(1).getAttribute("value"));
+		TestCase_001();
 	}
 
 	//@Test
@@ -241,8 +239,17 @@ public class iOS_UICatalog_Start {
 		TestCase_001();
 	}
 
-	public void Text_Fields() {
+	@Test
+	public void Text_Fields() throws InterruptedException {
+		
+		driver.findElement(By.name("Text Fields")).click();
+		driver.findElements(By.className("XCUIElementTypeTextField")).get(0).sendKeys("Text Message 1 in Text Box 1");
+		driver.findElements(By.className("XCUIElementTypeTextField")).get(1).sendKeys("Text Message 2 in Text Box 2");
 
+		driver.findElement(By.className("XCUIElementTypeSecureTextField")).sendKeys("Password");
+		System.out.println(driver.findElement(By.className("XCUIElementTypeSecureTextField")).getText());
+		Thread.sleep(2000);
+		TestCase_001();
 	}
 
 	//@Test
@@ -256,11 +263,27 @@ public class iOS_UICatalog_Start {
 		wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.name("Clear text")))).click();
 		driver.findElement(By.className("XCUIElementTypeTextField")).sendKeys("http://www.google.co.in");
 		driver.getKeyboard().pressKey(Keys.ENTER);
+		Thread.sleep(5000);
+		TestCase_001();
 
 	}
 
-	public void results_in_search() {
+	@Test
+	public void results_in_search() throws InterruptedException {
 
+		driver.swipe(200, 600, 200, 250, 1);
+		Thread.sleep(2000);
+		driver.findElement(By.name("Search")).click();
+		Thread.sleep(2000);
+		driver.findElement(By.name("Results in Searched Controller")).click();
+		driver.findElements(By.name("Search")).get(1).click();
+		driver.findElements(By.name("Search")).get(1).sendKeys("P");
+		
+		List<IOSElement> search_results = (List<IOSElement>)driver.findElements(By.className("XCUIElementTypeStaticText"));
+
+		for (IOSElement list : search_results) {
+			System.out.println(list.getText());
+		}
 	}
 
 
